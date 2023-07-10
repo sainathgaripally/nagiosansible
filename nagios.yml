@@ -19,7 +19,7 @@
           - libgd-dev
         state: present
 
-      - name: Downloading the Source
-        get_url:
-          url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
-          dest: /tmp/
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+        dest: /tmp/
