@@ -33,5 +33,9 @@
     - name: Compile
       shell:
         cmd: cd /tmp/nagioscore-nagios-4.4.6
+
+    - name: Compile
+      shell:
+        cmd: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
         
         
