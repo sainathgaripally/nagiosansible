@@ -31,7 +31,7 @@
         dest: /tmp/
 
     - name: Compile
-      command: 
+      shell: 
         cmd: cd /tmp/nagioscore-nagios-4.4.6
 
     - name: Compile
