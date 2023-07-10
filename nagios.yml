@@ -6,5 +6,15 @@
     - name: Update and install softwares
       apt:
         update_cache: yes
-        name: autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php7.4 libgd-dev
+        name: 
+          - autoconf
+            gcc  
+            libc6 
+            make 
+            wget 
+            unzip 
+            apache2 
+            php 
+            libapache2-mod-php7.4 
+            libgd-dev
         state: present
