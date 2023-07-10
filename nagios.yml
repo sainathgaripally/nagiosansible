@@ -23,3 +23,9 @@
       get_url:
         url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
         dest: /tmp/
+      
+    - name: Untar the nagios 
+      unarchive:
+        src: /tmp/nagios-4.4.6.tar.gz
+        
+        
