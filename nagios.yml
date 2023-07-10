@@ -31,11 +31,11 @@
         dest: /tmp/
 
     - name: Compile
-      shell:
+      command: 
         cmd: cd /tmp/nagioscore-nagios-4.4.6
 
     - name: Compile
       shell:
-        cmd: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+        cmd: .//tmp/nagioscore-nagios-4.4.6/configure --with-httpd-conf=/etc/apache2/sites-enabled
         
         
