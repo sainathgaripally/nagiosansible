@@ -34,9 +34,11 @@
       command: ./configure --with-httpd-conf=/etc/apache2/sites-enable
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
-        
+
     - name: Making compile
       command: make all
+      args: 
+        chdir: /tmp/nagioscore-nagios-4.4.6
 
 
 
