@@ -26,6 +26,7 @@
       
     - name: Untar the nagios 
       unarchive:
+        remote_src: true
         src: /tmp/nagios-4.4.6.tar.gz
         dest: /tmp/
         
