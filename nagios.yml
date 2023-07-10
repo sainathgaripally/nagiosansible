@@ -39,6 +39,9 @@
       command: make all
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Create User and Group
+      command: make install-groups-users
 
 
 
