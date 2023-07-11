@@ -72,7 +72,8 @@
         chdir: "{{ nagioscorepath }}"
       
     - name: Install  Apache web server configuration files and configures Apache settings
-      command: "make install-webconf && a2enmod rewrite && a2enmod cgi"
+      shell: |
+        make install-webconf && a2enmod rewrite && a2enmod cgi
       args:
         chdir: "{{ nagioscorepath }}"
 
@@ -120,12 +121,14 @@
         dest: /tmp/
 
     - name: Compile
-      command: ./tools/setup && ./configure
+      shell: |
+        ./tools/setup && ./configure
       args:
         chdir: "{{ nagiospluginpath }}"
 
     - name: Install
-      command: "make && make install"
+      shell: |
+        make && make install
       args:
         chdir: "{{ nagiospluginpath }}"
 
