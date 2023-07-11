@@ -31,9 +31,7 @@
         dest: /tmp/
 
     - name: Compile
-      command: 
-        argv:
-          - ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
 
