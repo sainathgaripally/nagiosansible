@@ -4,6 +4,7 @@
   vars:
     nagioscorepath:   /tmp/nagioscore-nagios-4.4.6
     nagiospluginpath: /tmp/nagios-plugins-release-2.3.3
+    nagiospass:       nagiosadmin
 
   tasks:
     - name: Update and install softwares
@@ -87,10 +88,10 @@
     - name: a2enmod cgi
       command: a2enmod cgi
       args:
-        chdir: "{{ nagioscorepath }} "
+        chdir: "{{ nagioscorepath }}"
 
     - name: apache user account
-      command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
+      command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
 
     - name: restart apache2
       service:
