@@ -76,7 +76,7 @@
         chdir: "{{ nagioscorepath }}"
       
     - name: Install  Apache web server configuration files and configures Apache settings
-      command: make install-webconf && a2enmod rewrite && a2enmod cgi
+      command: "make install-webconf && a2enmod rewrite && a2enmod cgi"
       args:
         chdir: "{{ nagioscorepath }}"
 
@@ -129,7 +129,7 @@
         chdir: "{{ nagiospluginpath }}"
 
     - name: Install
-      command: make && make install
+      command: "make && make install"
       args:
         chdir: "{{ nagiospluginpath }}"
 
