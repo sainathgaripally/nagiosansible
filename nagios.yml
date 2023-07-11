@@ -36,17 +36,17 @@
     - name: Compile
       command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
       args: 
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
 
     - name: Making compile
       command: make all
       args: 
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
       
     - name: Create User and Group
       command: make install-groups-users
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
       
     - name: Adding www-data to nagios
       user:
@@ -57,37 +57,37 @@
     - name: Install binaries
       command: make install
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
     
     - name: Install service/daemonit
       command: make install-daemoninit
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
 
     - name: Install commandmode
       command: make install-commandmode
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
 
     - name: Install config
       command: make install-config
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
       
     - name: Install webconf
       command: make install-webconf
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
     
     - name: a2enmod rewrite
       command: a2enmod rewrite
       args:
-        chdir: {{ nagioscorepath }}
+        chdir: "{{ nagioscorepath }}"
 
     - name: a2enmod cgi
       command: a2enmod cgi
       args:
-        chdir: {{ nagioscorepath }} 
+        chdir: "{{ nagioscorepath }} "
 
     - name: apache user account
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
@@ -141,22 +141,22 @@
     - name: tools setup
       command: ./tools/setup
       args:
-        chdir: {{ nagiospluginpath }}
+        chdir: "{{ nagiospluginpath }}"
     
     - name: tools setup
       command: ./configure
       args:
-        chdir: {{ nagiospluginpath }}
+        chdir: "{{ nagiospluginpath }}"
   
     - name: tools setup
       command: make
       args:
-        chdir: {{ nagiospluginpath }}
+        chdir: "{{ nagiospluginpath }}"
     
     - name: tools setup
       command: make install
       args:
-        chdir: {{ nagiospluginpath }}
+        chdir: "{{ nagiospluginpath }}"
 
     - name: restarting
       service:
