@@ -3,5 +3,167 @@
   hosts: all
 
   tasks:
-   - name: sample
-     command: echo abc
+    - name: Update and install softwares
+      apt:
+        update_cache: yes
+        name: 
+          - autoconf
+          - gcc  
+          - libc6 
+          - make 
+          - wget 
+          - unzip 
+          - apache2 
+          - php 
+          - libapache2-mod-php7.4 
+          - libgd-dev
+        state: present
+
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+        dest: /tmp/
+      
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagioscore-nagios-4.4.6.tar.gz
+        dest: /tmp/
+
+    - name: Compile
+      shell: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+      args: 
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Making compile
+      command: make all
+      args: 
+        chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Create User and Group
+      command: make install-groups-users
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Adding www-data to nagios
+      user:
+        name: www-data
+        groups: nagios
+        append: yes
+
+    - name: Install binaries
+      command: make install
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: Install service/daemonit
+      command: make install-daemoninit
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Install commandmode
+      command: make install-commandmode
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Install config
+      command: make install-config
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Install webconf
+      command: make install-webconf
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: a2enmod rewrite
+      command: a2enmod rewrite
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: a2enmod cgi
+      command: a2enmod cgi
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6 
+
+    - name: apache user account
+      command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
+
+    - name: restart apache2
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
+
+    - name: start nagios
+      service:
+        name: nagios
+        state: started
+
+    - name: install softwares
+      apt:
+        name:
+          - autoconf
+          - gcc
+          - libc6
+          - libmcrypt-dev
+          - make
+          - libssl-dev
+          - wget
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+      tags:
+        - v1
+      
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+        dest: /tmp/
+      tags:
+        - v2
+
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagios-plugins-release-2.3.3.tar.gz
+        dest: /tmp/
+      tags:
+        - v3
+
+    - name: tools setup
+      command: ./tools/setup
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+    
+    - name: tools setup
+      command: ./configure
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+  
+    - name: tools setup
+      command: make
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+    
+    - name: tools setup
+      command: make install
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+
+    - name: restarting
+      service:
+        name: nagios
+        state: restarted
+
+
+
+
+    
+
+
+
