@@ -70,6 +70,21 @@
       command: make install-config
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Install webconf
+      command: make install-webconf
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: a2enmod rewrite
+      command: a2enmod rewrite
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: a2enmod cgi
+      command: a2enmod cgi
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
 
 
 
