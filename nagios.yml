@@ -79,8 +79,6 @@
 
     - name: Create nagiosadmin user
       command: htpasswd -c -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
-      tags:
-        - v1
 
     - name: Restart apache2
       service:
