@@ -31,7 +31,7 @@
         dest: /tmp/
 
     - name: Compile
-      command: ./configure --with-httpd-conf=/etc/apache2/sites-enable
+      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
 
@@ -73,7 +73,7 @@
       
     - name: Install webconf
       command: /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-enabled/nagios.conf
-          
+
     
     - name: a2enmod rewrite
       command: a2enmod rewrite
