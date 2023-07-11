@@ -31,16 +31,15 @@
         dest: /tmp/
 
     - name: Compile
-      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+      command: 
+        - ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+        - make all
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
-
-    - name: NagiosEnterp
-      command:
-        argv:
-          - make all
-          - make install-group-users
-      args: 
+      
+    - name: Create User and Group
+      command: make install-groups-users
+      args:
         chdir: /tmp/nagioscore-nagios-4.4.6
       
     - name: Adding www-data to nagios
@@ -50,17 +49,39 @@
         append: yes
 
     - name: Install binaries
-      command: 
-        argv:
-          - make install
-          - make install-daemoninit
-          - make install-commandmode
-          - make install-config
-          - make install-webconf
-          - a2enmod rewrite
-          - a2enmod cgi
+      command: make install
       args:
-        chdir: /tmp/nagioscore-nagios-4.4.66 
+        chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: Install service/daemonit
+      command: make install-daemoninit
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Install commandmode
+      command: make install-commandmode
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Install config
+      command: make install-config
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Install webconf
+      command: make install-webconf
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: a2enmod rewrite
+      command: a2enmod rewrite
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: a2enmod cgi
+      command: a2enmod cgi
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6 
 
     - name: apache user account
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
@@ -112,15 +133,25 @@
         - v3
 
     - name: tools setup
-      command: 
-        argv:
-          - ./tools/setup
-          - ./configure
-          - make
-          - make install
+      command: ./tools/setup
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+    
+    - name: tools setup
+      command: ./configure
       args:
         chdir: /tmp/nagios-plugins-release-2.3.3
   
+    - name: tools setup
+      command: make
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+    
+    - name: tools setup
+      command: make install
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+
     - name: restarting
       service:
         name: nagios
