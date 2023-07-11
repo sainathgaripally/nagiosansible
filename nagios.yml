@@ -84,10 +84,7 @@
     - name: a2enmod cgi
       command: a2enmod cgi
       args:
-        chdir: /tmp/nagioscore-nagios-4.4.6
-
-    - name: apache user account
-      command: htpasswd /usr/local/nagios/etc/htpasswd.users nagiosadmin 
+        chdir: /tmp/nagioscore-nagios-4.4.6 
 
     - name: apache user account
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
