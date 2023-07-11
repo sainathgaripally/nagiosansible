@@ -90,12 +90,13 @@
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
 
     - name: restart apache2
-      systemd:
+      service:
         name: apache2
+        enabled: yes
         stated: restarted
 
     - name: start nagios
-      systemd:
+      service:
         name: nagios
         state: started
 
