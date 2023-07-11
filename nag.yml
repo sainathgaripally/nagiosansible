@@ -4,5 +4,4 @@
 
   tasks:
    - name: sample
-     command: 
-       - touch 1.txt
+     command: echo abc
