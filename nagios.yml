@@ -102,7 +102,6 @@
 
     - name: install softwares
       apt:
-        update_cache: yes
         name:
           - autoconf
           - gcc
@@ -118,11 +117,15 @@
           - snmp
           - libnet-snmp-perl
           - gettext
+      tags:
+        - v1
       
     - name: Downloading the Source
       get_url:
         url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
         dest: /tmp/
+      tags:
+        - v2
 
 
 
