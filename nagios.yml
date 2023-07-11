@@ -100,6 +100,40 @@
         name: nagios
         state: started
 
+    - name: install softwares
+      apt:
+        update_cache: yes
+        name:
+          - autoconf
+          - gcc
+          - libc6
+          - libmcrypt-dev
+          - make
+          - libssl-dev
+          - wget
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+      
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+        dest: /tmp/
+
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagioscore-nagios-4.4.6.tar.gz
+        dest: /tmp/
+
+      
+
+
+
 
 
     
