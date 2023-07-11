@@ -75,9 +75,6 @@
       command: make install-webconf
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
-
-      #/usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-enabled/nagios.conf
-
     
     - name: a2enmod rewrite
       command: a2enmod rewrite
@@ -88,6 +85,13 @@
       command: a2enmod cgi
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: apache user account
+      htpasswd:
+        name: nagiosadmin
+        path: /usr/local/nagios/etc/htpasswd.users
+        password: nagiosadmin
+
 
 
 
