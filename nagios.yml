@@ -73,6 +73,9 @@
       
     - name: Install webconf
       command: make install-webconf
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
       #/usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-enabled/nagios.conf
 
     
