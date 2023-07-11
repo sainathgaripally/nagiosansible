@@ -54,6 +54,9 @@ This installs the *SAMPLE* configuration files. These are required as Nagios nee
 
 sudo make install-config
 
+ make install-daemoninit
+        make install-commandmode
+        make install-config
 
 Install Apache Config files:
 -----------------------------

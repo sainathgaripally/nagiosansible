@@ -52,11 +52,7 @@
         append: yes
 
     - name: Install binaries
-      command: |
-        make install
-        make install-daemoninit
-        make install-commandmode
-        make install-config
+      command: make install
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
 
