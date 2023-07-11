@@ -1,0 +1,131 @@
+- name: Install nagios
+  become: yes
+  hosts: all
+
+  tasks:
+    - name: Update and install softwares
+      apt:
+        update_cache: yes
+        name: 
+          - autoconf
+          - gcc  
+          - libc6 
+          - make 
+          - wget 
+          - unzip 
+          - apache2 
+          - php 
+          - libapache2-mod-php7.4 
+          - libgd-dev
+        state: present
+
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+        dest: /tmp/
+      
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagioscore-nagios-4.4.6.tar.gz
+        dest: /tmp/
+
+    - name: Compile
+      command: 
+      argv:
+        - ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+        - make all
+        - make install-groups-users
+      args: 
+        chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Adding www-data to nagios
+      user:
+        name: www-data
+        groups: nagios
+        append: yes
+
+    - name: Install binaries
+      command: 
+        argv:
+          - make install
+          - make install-daemoninit
+          - make install-commandmode
+          - make install-config
+          - make install-webconf
+          - a2enmod rewrite
+          - a2enmod cgi
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.66 
+
+    - name: apache user account
+      command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
+
+    - name: restart apache2
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
+
+    - name: start nagios
+      service:
+        name: nagios
+        state: started
+
+    - name: install softwares
+      apt:
+        name:
+          - autoconf
+          - gcc
+          - libc6
+          - libmcrypt-dev
+          - make
+          - libssl-dev
+          - wget
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+      tags:
+        - v1
+      
+    - name: Downloading the Source
+      get_url:
+        url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+        dest: /tmp/
+      tags:
+        - v2
+
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagios-plugins-release-2.3.3.tar.gz
+        dest: /tmp/
+      tags:
+        - v3
+
+    - name: tools setup
+      command: 
+        argv:
+          - ./tools/setup
+          - ./configure
+          - make
+          - make install
+      args:
+        chdir: /tmp/nagios-plugins-release-2.3.3
+  
+    - name: restarting
+      service:
+        name: nagios
+        state: restarted
+
+
+
+
+    
+
+
+
