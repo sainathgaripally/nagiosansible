@@ -32,10 +32,10 @@
 
     - name: Compile
       command: 
-      argv:
-        - ./configure --with-httpd-conf=/etc/apache2/sites-enabled
-        - make all
-        - make install-groups-users
+        argv:
+          - ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+          - make all
+          - make install-groups-users
       args: 
         chdir: /tmp/nagioscore-nagios-4.4.6
       
