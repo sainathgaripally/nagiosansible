@@ -87,10 +87,7 @@
         chdir: /tmp/nagioscore-nagios-4.4.6
 
     - name: apache user account
-      community.general.htpasswd:
-        name: nagiosadmin
-        path: /usr/local/nagios/etc/htpasswd.users
-
+      command: htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 
 
 
