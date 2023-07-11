@@ -23,33 +23,28 @@
           - libgd-dev
         state: present
 
-    - name: Downloading the Source
+    - name: Downloading the nagioscore Source
       get_url:
         url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
         dest: /tmp/
       
-    - name: Untar the nagios 
+    - name: Untar the nagioscore
       unarchive:
         remote_src: true
         src: /tmp/nagioscore-nagios-4.4.6.tar.gz
         dest: /tmp/
 
     - name: Compile
-      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled && make all
       args: 
         chdir: "{{ nagioscorepath }}"
 
-    - name: Making compile
-      command: make all
-      args: 
-        chdir: "{{ nagioscorepath }}"
-      
-    - name: Create User and Group
+    - name: Create Nagios User and Group
       command: make install-groups-users
       args:
         chdir: "{{ nagioscorepath }}"
       
-    - name: Adding www-data to nagios
+    - name: Adding www-data user to nagios group
       user:
         name: www-data
         groups: nagios
@@ -60,51 +55,41 @@
       args:
         chdir: "{{ nagioscorepath }}"
     
-    - name: Install service/daemonit
+    - name: Install service/daemon
       command: make install-daemoninit
       args:
         chdir: "{{ nagioscorepath }}"
 
-    - name: Install commandmode
+    - name: Install and configure the external command file
       command: make install-commandmode
       args:
         chdir: "{{ nagioscorepath }}"
 
-    - name: Install config
+    - name: Install configuration files for nagios
       command: make install-config
       args:
         chdir: "{{ nagioscorepath }}"
       
-    - name: Install webconf
-      command: make install-webconf
-      args:
-        chdir: "{{ nagioscorepath }}"
-    
-    - name: a2enmod rewrite
-      command: a2enmod rewrite
+    - name: Install  Apache web server configuration files and configures Apache settings
+      command: make install-webconf && a2enmod rewrite && a2enmod cgi
       args:
         chdir: "{{ nagioscorepath }}"
 
-    - name: a2enmod cgi
-      command: a2enmod cgi
-      args:
-        chdir: "{{ nagioscorepath }}"
-
-    - name: apache user account
+    - name: Create nagiosadmin user
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
 
-    - name: restart apache2
+    - name: Restart apache2
       service:
         name: apache2
         enabled: yes
         state: restarted
 
-    - name: start nagios
+    - name: Start nagios
       service:
         name: nagios
         state: started
 
-    - name: install softwares
+    - name: Install softwares
       apt:
         name:
           - autoconf
@@ -121,41 +106,25 @@
           - snmp
           - libnet-snmp-perl
           - gettext
-      tags:
-        - v1
       
-    - name: Downloading the Source
+    - name: Downloading the Nagios plugins Source
       get_url:
         url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
-        dest: /tmp/
-      tags:
-        - v2
+        dest: /tmp/s
 
     - name: Untar the nagios 
       unarchive:
         remote_src: true
         src: /tmp/nagios-plugins-release-2.3.3.tar.gz
         dest: /tmp/
-      tags:
-        - v3
 
-    - name: tools setup
-      command: ./tools/setup
+    - name: Compile
+      command: ./tools/setup && ./configure
       args:
         chdir: "{{ nagiospluginpath }}"
-    
-    - name: tools setup
-      command: ./configure
-      args:
-        chdir: "{{ nagiospluginpath }}"
-  
-    - name: tools setup
-      command: make
-      args:
-        chdir: "{{ nagiospluginpath }}"
-    
-    - name: tools setup
-      command: make install
+
+    - name: Install
+      command: make && make install
       args:
         chdir: "{{ nagiospluginpath }}"
 
