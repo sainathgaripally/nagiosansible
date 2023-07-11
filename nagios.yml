@@ -89,6 +89,16 @@
     - name: apache user account
       command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin nagiosadmin 
 
+    - name: restart apache2
+      service:
+        name: apache2
+        stated: restarted
+
+    - name: start nagios
+      service:
+        name: nagios
+        state: started
+
 
 
     
