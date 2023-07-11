@@ -78,7 +78,7 @@
         chdir: "{{ nagioscorepath }}"
 
     - name: Create nagiosadmin user
-      command: htpasswd -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
+      command: htpasswd -c -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
       tags:
         - v1
 
