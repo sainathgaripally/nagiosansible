@@ -48,7 +48,7 @@
     - name: Adding www-data to nagios
       user:
         name: www-data
-        group: nagios
+        groups: nagios
         append: yes
 
 
