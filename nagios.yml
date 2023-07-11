@@ -41,7 +41,7 @@
         chdir: /tmp/nagioscore-nagios-4.4.6
       
     - name: Create User and Group
-      command: make install-groups-users
+      command: /tmp/nagioscore-nagios-4.4.6/make install-groups-users
 
 
 
