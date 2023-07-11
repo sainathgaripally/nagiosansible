@@ -51,6 +51,15 @@
         groups: nagios
         append: yes
 
+    - name: Install binaries
+      command: 
+        - make install
+        - make install-daemoninit
+        - make install-commandmode
+        - make make install-config
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
 
 
     
