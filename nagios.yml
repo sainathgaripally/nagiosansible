@@ -55,6 +55,21 @@
       command: make install
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
+    
+    - name: Install service/daemonit
+      command: make install-daemoninit
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+    - name: Install commandmode
+      command: make install-commandmode
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
+
+     - name: Install config
+      command: make install-config
+      args:
+        chdir: /tmp/nagioscore-nagios-4.4.6
 
 
 
