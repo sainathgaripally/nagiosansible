@@ -114,7 +114,7 @@
         url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
         dest: /tmp/
 
-    - name: Untar the nagios 
+    - name: Untar the nagios plugins release 
       unarchive:
         remote_src: true
         src: /tmp/nagios-plugins-release-2.3.3.tar.gz
