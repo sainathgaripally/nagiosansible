@@ -155,6 +155,11 @@
       args:
         chdir: /tmp/nagios-plugins-release-2.3.3
 
+    - name: restarting
+      service:
+        name: nagios
+        state: restarted
+
 
 
 
