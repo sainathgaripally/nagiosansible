@@ -127,6 +127,14 @@
       tags:
         - v2
 
+    - name: Untar the nagios 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagios-plugins-release-2.3.3.tar.gz
+        dest: /tmp/
+      tags:
+        - v3
+
 
 
       
