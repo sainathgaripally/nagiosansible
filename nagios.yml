@@ -35,7 +35,12 @@
         dest: /tmp/
 
     - name: Compile
-      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled && make all
+      command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled 
+      args: 
+        chdir: "{{ nagioscorepath }}"
+
+    - name: Compile
+      command: make all
       args: 
         chdir: "{{ nagioscorepath }}"
 
