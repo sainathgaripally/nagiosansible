@@ -44,6 +44,12 @@
       command: make install-groups-users
       args:
         chdir: /tmp/nagioscore-nagios-4.4.6
+      
+    - name: Adding www-data to nagios
+      user:
+        name: www-data
+        group: nagios
+        append: yes
 
 
 
