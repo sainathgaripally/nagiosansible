@@ -64,7 +64,7 @@
         state: touch
         path: /home/ubuntu/1.txt
 
-    - name: touch file
+    - name: touch file-2
       file:
         state: touch
         path: /home/ubuntu/1.txt
