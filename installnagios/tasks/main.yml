@@ -1,10 +1,6 @@
 ---
 # tasks file for installnagios
 
-
-    - name: flush1
-      meta: "flush_handlers"
-      
     - name: Update and install softwares
       apt:
         update_cache: yes
@@ -44,6 +40,9 @@
         - Create nagiosadmin user
         - Restart apache2
 
+    - name: flush1
+      meta: "flush_handlers"
+          
     - name: Start nagios
       service:
         name: nagios
