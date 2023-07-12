@@ -1,0 +1,145 @@
+- name: Install nagios
+  become: yes
+  hosts: all
+  vars:
+    nagioscorepath:   /tmp/nagioscore-nagios-4.4.6
+    nagiospluginpath: /tmp/nagios-plugins-release-2.3.3
+    nagiospass:       nagiosadmin
+  
+  handlers:
+    - name: Compile nagioscore
+      shell: |
+        ./configure --with-httpd-conf=/etc/apache2/sites-enabled && make all
+      args: 
+        chdir: "{{ nagioscorepath }}"
+
+    - name: Create Nagios User and Group
+      command: make install-groups-users
+      args:
+        chdir: "{{ nagioscorepath }}"
+      
+    - name: Adding www-data user to nagios group
+      user:
+        name: www-data
+        groups: nagios
+        append: yes
+  
+    - name: Install binaries
+      command: make install
+      args:
+        chdir: "{{ nagioscorepath }}"
+    
+    - name: Install service/daemon
+      command: make install-daemoninit
+      args:
+        chdir: "{{ nagioscorepath }}"
+
+    - name: Install and configure the external command file
+      command: make install-commandmode
+      args:
+        chdir: "{{ nagioscorepath }}"
+
+    - name: Install configuration files for nagios
+      command: make install-config
+      args:
+        chdir: "{{ nagioscorepath }}"
+      
+    - name: Install  Apache web server configuration files and configures Apache settings
+      shell: |
+        make install-webconf && a2enmod rewrite && a2enmod cgi
+      args:
+        chdir: "{{ nagioscorepath }}"
+
+    - name: Create nagiosadmin user
+      command: htpasswd -c -b /usr/local/nagios/etc/htpasswd.users nagiosadmin {{ nagiospass }} 
+
+    - name: Restart apache2
+      service:
+        name: apache2
+        enabled: yes
+        state: restarted
+ 
+    - name: Compile nagios plugins
+      shell: |
+        ./tools/setup && ./configure
+      args:
+        chdir: "{{ nagiospluginpath }}"
+
+    - name: Install nagiosplugins
+      shell: |
+        make && make install
+      args:
+        chdir: "{{ nagiospluginpath }}"
+
+    - name: Restart nagios
+      service:
+        name: nagios
+        state: restarted
+
+  tasks:
+    - name: Update and install softwares
+      apt:
+        update_cache: yes
+        name: 
+          - autoconf
+          - gcc  
+          - libc6 
+          - make 
+          - wget 
+          - unzip 
+          - apache2 
+          - php 
+          - libapache2-mod-php7.4 
+          - libgd-dev
+        state: present
+
+    - name: Downloading the nagioscore Source
+      get_url:
+        url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+        dest: /tmp/
+      
+    - name: Untar the nagioscore
+      unarchive:
+        remote_src: true
+        src: /tmp/nagioscore-nagios-4.4.6.tar.gz
+        dest: /tmp/
+
+      notify:
+        - Compile nagioscore
+        - Create Nagios User and Group
+        - Adding www-data user to nagios group
+        - Install binaries
+        - Install service/daemon
+        - Install and configure the external command file
+        - Install configuration files for nagios
+        - Install  Apache web server configuration files and configures Apache settings
+        - Create nagiosadmin user
+        - Restart apache2
+
+    - name: flush1
+      meta: "flush_handlers"
+
+    - name: Start nagios
+      service:
+        name: nagios
+        state: started
+
+    - name: Install softwares
+      apt:
+        name:
+          - autoconf
+          - gcc
+          - libc6
+          - libmcrypt-dev
+          - make
+          - libssl-dev
+          - wget
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+      
+    
