@@ -17,6 +17,12 @@
       command: make install-groups-users
       args:
         chdir: "{{ nagioscorepath }}"
+      
+    - name: Adding www-data user to nagios group
+      user:
+        name: www-data
+        groups: nagios
+        append: yes
   
     - name: Install binaries
       command: make install
@@ -97,22 +103,18 @@
         remote_src: true
         src: /tmp/nagioscore-nagios-4.4.6.tar.gz
         dest: /tmp/
+
       notify:
-      - Compile nagioscore
-      - Create Nagios User and Group
-      - Install binaries
-      - Install service/daemon
-      - Install and configure the external command file
-      - Install configuration files for nagios
-      - Install  Apache web server configuration files and configures Apache settings
-      - Create nagiosadmin user
-      - Restart apache2
-      
-    - name: Adding www-data user to nagios group
-      user:
-        name: www-data
-        groups: nagios
-        append: yes
+        - Compile nagioscore
+        - Create Nagios User and Group
+        - Adding www-data user to nagios group
+        - Install binaries
+        - Install service/daemon
+        - Install and configure the external command file
+        - Install configuration files for nagios
+        - Install  Apache web server configuration files and configures Apache settings
+        - Create nagiosadmin user
+        - Restart apache2
 
     - name: Start nagios
       service:
