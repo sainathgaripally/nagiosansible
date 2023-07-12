@@ -87,6 +87,9 @@
         state: restarted
 
   tasks:
+    - name: flush1
+      meta: "flush_handlers"
+
     - name: Update and install softwares
       apt:
         update_cache: yes
@@ -125,9 +128,6 @@
         - Install  Apache web server configuration files and configures Apache settings
         - Create nagiosadmin user
         - Restart apache2
-
-    - name: flush1
-      meta: "flush_handlers"
 
     - name: Start nagios
       service:
