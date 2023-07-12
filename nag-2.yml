@@ -161,6 +161,7 @@
         - Compile nagios plugins
         - Install nagiosplugins
         - Restart nagios
+        - touch file
 
       
     
