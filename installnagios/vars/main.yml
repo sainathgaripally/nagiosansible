@@ -1,2 +1,6 @@
 ---
 # vars file for installnagios
+
+nagioscorepath:   /tmp/nagioscore-nagios-4.4.6
+nagiospluginpath: /tmp/nagios-plugins-release-2.3.3
+nagiospass:       nagiosadmin

@@ -1,0 +1,6 @@
+- name: Install nagios
+  become: yes
+  hosts: all
+
+  roles:
+    - installnagios

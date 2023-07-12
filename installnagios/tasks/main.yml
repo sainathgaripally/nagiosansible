@@ -1,2 +1,83 @@
 ---
 # tasks file for installnagios
+
+
+    - name: flush1
+      meta: "flush_handlers"
+      
+    - name: Update and install softwares
+      apt:
+        update_cache: yes
+        name: 
+          - autoconf
+          - gcc  
+          - libc6 
+          - make 
+          - wget 
+          - unzip 
+          - apache2 
+          - php 
+          - libapache2-mod-php7.4 
+          - libgd-dev
+        state: present
+
+    - name: Downloading the nagioscore Source
+      get_url:
+        url: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+        dest: /tmp/
+      
+    - name: Untar the nagioscore
+      unarchive:
+        remote_src: true
+        src: /tmp/nagioscore-nagios-4.4.6.tar.gz
+        dest: /tmp/
+
+      notify:
+        - Compile nagioscore
+        - Create Nagios User and Group
+        - Adding www-data user to nagios group
+        - Install binaries
+        - Install service/daemon
+        - Install and configure the external command file
+        - Install configuration files for nagios
+        - Install  Apache web server configuration files and configures Apache settings
+        - Create nagiosadmin user
+        - Restart apache2
+
+    - name: Start nagios
+      service:
+        name: nagios
+        state: started
+
+    - name: Install softwares
+      apt:
+        name:
+          - autoconf
+          - gcc
+          - libc6
+          - libmcrypt-dev
+          - make
+          - libssl-dev
+          - wget
+          - bc
+          - gawk
+          - dc
+          - build-essential
+          - snmp
+          - libnet-snmp-perl
+          - gettext
+        
+    - name: Downloading the Nagios plugins Source
+      get_url:
+        url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+        dest: /tmp/
+
+    - name: Untar the nagios plugins releases 
+      unarchive:
+        remote_src: true
+        src: /tmp/nagios-plugins-release-2.3.3.tar.gz
+        dest: /tmp/
+      notify:
+        - Compile nagios plugins
+        - Install nagiosplugins
+        - Restart nagios
