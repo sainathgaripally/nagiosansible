@@ -162,11 +162,11 @@
         remote_src: true
         src: /tmp/nagios-plugins-release-2.3.3.tar.gz
         dest: /tmp/
-    #  notify:
-    #    - Compile nagios plugins
-    #    - Install nagiosplugins
-    #    - Restart nagios
-    #    - touch file
+      notify:
+        - Compile nagios plugins
+        - Install nagiosplugins
+        - Restart nagios
+        - touch file
 
       
     
