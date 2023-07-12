@@ -58,6 +58,11 @@
         name: apache2
         enabled: yes
         state: restarted
+      
+    - name: touch file
+      file:
+        state: touch
+        path: /home/ubuntu/1.txt
  
     - name: Compile nagios plugins
       shell: |
