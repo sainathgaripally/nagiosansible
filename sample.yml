@@ -1,0 +1,32 @@
+  - name: Install softwares
+    apt:
+      name:
+        - autoconf
+        - gcc
+        - libc6
+        - libmcrypt-dev
+        - make
+        - libssl-dev
+        - wget
+        - bc
+        - gawk
+        - dc
+        - build-essential
+        - snmp
+        - libnet-snmp-perl
+        - gettext
+
+  - name: Downloading the Nagios plugins Source
+    get_url:
+      url: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.3.3.tar.gz
+      dest: /tmp/
+
+  - name: Untar the nagios plugins releases
+    unarchive:
+      remote_src: true
+      src: /tmp/nagios-plugins-release-2.3.3.tar.gz
+      dest: /tmp/
+    notify:
+      - Compile nagios plugins
+      - Install nagiosplugins
+      - Restart nagios
